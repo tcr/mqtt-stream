@@ -1,6 +1,6 @@
 {
   "author": "Adam Rudd <adam.rudd@uqconnect.edu.au>",
-  "name": "mqtt",
+  "name": "mqtt-stream",
   "description": "A library for the MQTT protocol",
   "version": "0.2.9",
   "contributors": [
@@ -19,10 +19,6 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha"
-  },
-  "bin": {
-    "mqtt_pub": "./bin/mqtt_pub",
-    "mqtt_sub": "./bin/mqtt_sub"
   },
   "engines": {
     "node": ">=0.8.6"
