@@ -1,10 +1,16 @@
 /**
- * Module dependencies
+ * mqtt-stream/client.js
+ * 
+ * User-facing class on the client-side that allows for publishing /
+ * subscribing.
  */
-var Connection = require('./connection')
-  , Duplex = require('stream').Duplex
+
+var Duplex = require('stream').Duplex
   , util = require('util')
   , crypto = require('crypto');
+
+var Connection = require('./connection');
+
 
 /**
  * Default options
@@ -15,11 +21,12 @@ var defaultConnectOptions = {
   protocolVersion: 3
 };
 
-var defaultId = function() {
+var defaultId = function () {
   return 'mqttjs_' + crypto.randomBytes(8).toString('hex');
 };
 
 var nop = function(){};
+
 
 /**
  * MqttClient constructor
@@ -346,6 +353,7 @@ MqttClient.prototype.end = function() {
 MqttClient.prototype._cleanUp = function() {
   this.conn.disconnect();
   this.conn.end();
+  this.emit('end');
   if (this.pingTimer !== null) {
     clearInterval(this.pingTimer);
     this.pingTimer = null;

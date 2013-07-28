@@ -1,6 +1,6 @@
-/* Parse - packet parsing */
+// binary packet -> JSON description
 
-var protocol = require('./protocol');
+var protocol = require('./');
 
 module.exports.header = function(buf, packet) {
   packet.cmd = protocol.types[buf[0] >> protocol.CMD_SHIFT];

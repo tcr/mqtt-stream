@@ -1,5 +1,5 @@
 /**
- * Requires
+ * mqtt-stream/server.js
  */
 
 var events = require('events')
@@ -50,16 +50,21 @@ MqttServer.prototype.createClient = function () {
 
   client.on('publish', function (packet) {
     for (var k in self.clients) {
-      self.clients[k].publish({
-        topic: packet.topic,
-        payload: packet.payload
-      });
+      if (self.clients[k].subs.some(function (sub) {
+        return sub == packet.topic;
+      })) {
+        self.clients[k].publish({
+          topic: packet.topic,
+          payload: packet.payload
+        });
+      }
     }
   });
 
   client.on('subscribe', function (packet) {
     var granted = [];
     for (var i = 0; i < packet.subscriptions.length; i++) {
+      client.subs.push(packet.subscriptions[i].topic);
       granted.push(packet.subscriptions[i].qos);
     }
 

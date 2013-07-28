@@ -1,8 +1,13 @@
-var Duplex = require('stream').Duplex
+/**
+ * mqtt-stream/connection.js
+ // WHAT IS THIS
+ */
+
+ var Duplex = require('stream').Duplex
   , util = require('util')
   , protocol = require('./protocol')
-  , generate = require('./generate')
-  , parse = require('./parse');
+  , generate = require('./protocol/generate')
+  , parse = require('./protocol/parse');
 
 var Connection = module.exports = 
 function Connection(server) {
@@ -12,6 +17,9 @@ function Connection(server) {
   this.packet = {};
   this.skip = false;
   var that = this;
+
+  // Subscriptions
+  this.subs = [];
 
   // Wrap incoming writes as a readable stream.
   this.in = new (require('stream').Readable)();
@@ -110,7 +118,6 @@ Connection.prototype.parse = function() {
 
 for (var k in protocol.types) {
   var v = protocol.types[k];
-
   Connection.prototype[v] = function(type) {
     return function(opts) {
       var p = generate[type](opts);

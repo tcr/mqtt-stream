@@ -1,9 +1,9 @@
-// Given a JSON packet, return a well-formed binary buffer.
+// JSON description -> binary packet
 
-var protocol = require('./protocol');
+var protocol = require('./');
 
 // Connect
-module.exports.connect = function(opts) {
+exports.connect = function(opts) {
   var opts = opts || {}
     , protocolId = opts.protocolId
     , protocolVersion = opts.protocolVersion
@@ -134,7 +134,7 @@ module.exports.connect = function(opts) {
 };
 
 // Connack
-module.exports.connack = function(opts) {
+exports.connack = function(opts) {
   var opts = opts || {}
     , rc = opts.returnCode;
 
@@ -156,7 +156,7 @@ module.exports.connack = function(opts) {
 
 // Publish
 var empty = new Buffer(0);
-module.exports.publish = function(opts) {
+exports.publish = function(opts) {
   var opts = opts || {}
     , dup = opts.dup ? protocol.DUP_MASK : 0
     , qos = opts.qos
@@ -252,7 +252,7 @@ var gen_pubs = function(opts, type) {
 var pubs = ['puback', 'pubrec', 'pubrel', 'pubcomp'];
 
 for (var i = 0; i < pubs.length; i++) {
-  module.exports[pubs[i]] = function(pubType) {
+  exports[pubs[i]] = function(pubType) {
     return function(opts) {
       return gen_pubs(opts, pubType);
     }
@@ -260,7 +260,7 @@ for (var i = 0; i < pubs.length; i++) {
 }
 
 /* Subscribe */
-module.exports.subscribe = function(opts) {
+exports.subscribe = function(opts) {
   var opts = opts || {}
     , dup = opts.dup ? protocol.DUP_MASK : 0
     , qos = opts.qos || 0
@@ -325,7 +325,7 @@ module.exports.subscribe = function(opts) {
 };
 
 /* Suback */
-module.exports.suback = function(opts) {
+exports.suback = function(opts) {
   var opts = opts || {}
     , id = opts.messageId
     , granted = opts.granted;
@@ -371,7 +371,7 @@ module.exports.suback = function(opts) {
 };
 
 /* Unsubscribe */
-module.exports.unsubscribe = function(opts) {
+exports.unsubscribe = function(opts) {
   var opts = opts || {}
     , id = opts.messageId
     , dup = opts.dup ? protocol.DUP_MASK : 0
@@ -422,7 +422,7 @@ module.exports.unsubscribe = function(opts) {
   
 /* Unsuback */
 /* Note: uses gen_pubs since unsuback is the same as suback */
-module.exports.unsuback = function(type) {
+exports.unsuback = function(type) {
   return function(opts) {
     return gen_pubs(opts, type);
   }
@@ -432,7 +432,7 @@ module.exports.unsuback = function(type) {
 var empties = ['pingreq', 'pingresp', 'disconnect'];
 
 for (var i = 0; i < empties.length; i++) {
-  module.exports[empties[i]] = function(type) {
+  exports[empties[i]] = function(type) {
     return function(opts) {
       return new Buffer([protocol.codes[type] << 4, 0]);
     }

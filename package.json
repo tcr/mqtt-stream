@@ -4,19 +4,26 @@
   "description": "A JavaScript library for MQTT.",
   "version": "0.1.0",
   "contributors": [
-    "Matteo Collina <matteo.collina@gmail.com> (https://github.com/mcollina)"
+    "Matteo Collina <matteo.collina@gmail.com> (https://github.com/mcollina)",
+    "Tim Cameron Ryan <tim@timryan.org>"
   ],
   "keywords": [
     "mqtt",
     "publish/subscribe",
     "publish",
-    "subscribe"
+    "subscribe",
+    "protocol",
+    "websockets",
+    "sockets",
+    "pubsub",
+    "pub",
+    "sub"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/tcr/mqtt-stream.git"
+    "url": "http://github.com/tcr/mqtt-stream.git"
   },
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "mocha"
   },
